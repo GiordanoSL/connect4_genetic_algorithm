@@ -27,9 +27,11 @@
     bool acabou(CONNECT4 * game);
 
     // retorna o tabuleiro como um vetor de 1 dimensão (read-only)
-    const unsigned char * get_tabuleiro(CONNECT4 * game);
+    const char * get_tabuleiro(CONNECT4 * game);
 
     // retorna 1 se PLAYER1 venceu, -1 se PLAYER2 venceu, 0 se está empatado (0 não significa que o jogo acabou)
-    unsigned char get_vencedor(CONNECT4 * game);
+    char get_vencedor(CONNECT4 * game);
+
+    int get_num_jogadas(CONNECT4 * game);
 
 #endif

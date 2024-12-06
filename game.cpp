@@ -1,8 +1,8 @@
 #include "game.h"
 
 struct connect4_{
-    unsigned char tabuleiro[TAM_TAB][TAM_TAB],  // tabuleiro 7x7
-        rodada,                     // 1 = vermelho, -1 = azul (obs: como é unsigned char -1 = 255)
+     char tabuleiro[TAM_TAB][TAM_TAB],  // tabuleiro 7x7
+        rodada,                     // 1 = vermelho, -1 = azul (obs: como é  char -1 = 255)
         vencedor,                   // 1 = vermelho, -1 = azul, 0 = empate
         num_jogadas;                // nro de jogadas
 };
@@ -48,11 +48,11 @@ void print_tabuleiro(CONNECT4 * game){
     }
 }
 
-unsigned char venceu(CONNECT4 * game, int lin, int col){
+char venceu(CONNECT4 * game, int lin, int col){
     if(game == NULL)
         return -2;
 
-    unsigned char cor = game->tabuleiro[lin][col];
+     char cor = game->tabuleiro[lin][col];
     int i = lin, j = col, seq; // i, j = variáveis auxiliares; seq = sequencia de peças
 
     seq = 0;
@@ -164,12 +164,13 @@ unsigned char venceu(CONNECT4 * game, int lin, int col){
 
 int adicionar_peca(CONNECT4 * game, int coluna){
     if(game == NULL)
-        return -1;
+        return -2;
 
-    if(game->vencedor != 0 || game->num_jogadas >= 49) // verifica se o jogo já acabou
-        return -1;
+    if(game->vencedor != 0 || game->num_jogadas >= 49) {// verifica se o jogo já acabou
+        return -2;
+        }
     if(coluna < 0 || coluna >= TAM_TAB) // verifica se a coluna é válida
-        return -1;
+        return -2;
     
     int linha = 0;
 
@@ -197,15 +198,22 @@ bool acabou(CONNECT4 * game){
     return game->num_jogadas == TAM_TAB*TAM_TAB || game->vencedor != 0;
 }
 
-const unsigned char * get_tabuleiro(CONNECT4 * game){
+const char * get_tabuleiro(CONNECT4 * game){
     if(game == NULL)
         return NULL;
-    return (const unsigned char *) &(game->tabuleiro[0][0]);
+    return (const char *) &(game->tabuleiro[0][0]);
 }
-unsigned char get_vencedor(CONNECT4 * game){
+char get_vencedor(CONNECT4 * game){
     if(game == NULL)
         return -2;
     return game->vencedor;
+}
+
+int get_num_jogadas(CONNECT4 * game){
+    if(game == NULL)
+        return -1;
+    return game->num_jogadas;
+
 }
 
 // TESTE UTILIZANDO APENAS O JOGO
