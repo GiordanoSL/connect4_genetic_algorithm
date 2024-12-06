@@ -9,7 +9,7 @@ void draw_board(CONNECT4 * game){
     if(game == NULL)
         return;
 
-    const unsigned char * tabuleiro = get_tabuleiro(game);
+    const char * tabuleiro = get_tabuleiro(game);
     float x, y;
     COR cor;
 
@@ -44,8 +44,24 @@ void draw_vencedor(CONNECT4 * game){
     if(!acabou(game))
         return;
     unsigned char vencedor = get_vencedor(game);
-    COR c = vencedor == 1 ? PLAYER1_COLOR : vencedor == 0 ? EMPATE_COLOR : PLAYER2_COLOR;
-
+    COR c;
+    const char * mensagem;
+    switch(vencedor){
+        case 1 :
+            c = PLAYER1_COLOR;
+            mensagem = "JOGADOR 1 VENCEU !!!";
+            break;
+        case 0 :
+            c = EMPATE_COLOR;
+            mensagem = "EMPATE !!!";
+            break;
+        default:
+            c = PLAYER2_COLOR;
+            mensagem = "JOGADOR 2 VENCEU !!!";
+            break;
+    }
+    
+    
     glColor3ubv(c);
     glBegin(GL_POLYGON);
         glVertex2d(-0.6, 0.9);
@@ -53,6 +69,17 @@ void draw_vencedor(CONNECT4 * game){
         glVertex2d(0.6, 0.75);
         glVertex2d(-0.6, 0.75);
     glEnd();
+
+
+    glColor3ubv(BRANCO);
+    glRasterPos2f(-0.5, 0.8);  // Set the position for the text
+
+    while (*mensagem) {
+        glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, *mensagem);  // Render each character
+        mensagem++;
+    }
+
+
 }
 
 void mouse_handler(int button, int state, int x, int y, CONNECT4 * game){
