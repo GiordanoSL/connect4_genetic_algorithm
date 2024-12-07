@@ -19,5 +19,7 @@
 
     void evoluir(int gen);
 
+    void write_ind(const char * pesos_file, IND * ind);
+
 
 #endif

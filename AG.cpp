@@ -360,8 +360,8 @@ void finaliza_evolucao(IND ** player1, IND ** player2){
         for (int j = 0; j < TAM_POP; j++)
             fim_jogo(&jogos[i][j]);   
             
-        write_ind("player1.bin", *player1);
-        write_ind("player2.bin", *player2);
+    write_ind("player1.bin", *player1);
+    write_ind("player2.bin", *player2);
 }
 
 void write_pesos_input(FILE * fp, IND * ind){
