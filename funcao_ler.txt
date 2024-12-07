@@ -1,0 +1,48 @@
+na main:
+p1 = alloc_ind();
+p2 = alloc_ind();
+read_ind("player1.bin", &p1);
+read_ind("player2.bin", &p2);
+
+no AG.cpp:
+void read_pesos_input(FILE * fp, IND ** ind){
+    for (int i = 0; i < 49; i++)
+    {
+        size_t result = fread(&((*ind)->pesos_input[i]), sizeof(float), 21, fp);
+        if (result != 21) {
+            printf("Erro ao ler pesos_input[%d], esperado 21 elementos, mas leu %zu\n", i, result);
+            // Tratamento de erro, como retornar ou abortar
+        }
+    }
+}
+
+void read_pesos_intermed(FILE * fp, IND ** ind){
+    for (int i = 0; i < 21; i++)
+    {
+        size_t result = fread(&((*ind)->pesos_intermed[i]), sizeof(float), 7, fp);
+        if (result != 7) {
+            printf("Erro ao ler pesos_intermed[%d], esperado 7 elementos, mas leu %zu\n", i, result);
+            // Tratamento de erro, como retornar ou abortar
+        }
+    }
+}
+
+void read_ind(const char * pesos_file, IND ** ind){
+    FILE * file = fopen(pesos_file, "rb");
+
+    if(file == NULL){
+        printf("ERRO AO ABRIR ARQUIVO\n");
+        return;
+    }
+
+    read_pesos_input(file, ind);
+    read_pesos_intermed(file, ind);
+
+    size_t result = fread(&((*ind)->comeco), sizeof(int), 1, file);
+    if (result != 1) {
+        printf("Erro ao ler o campo 'comeco', esperado 1 elemento, mas leu %zu\n", result);
+        // Tratamento de erro, como retornar ou abortar
+    }
+
+    fclose(file);
+}
