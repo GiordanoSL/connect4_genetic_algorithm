@@ -83,23 +83,18 @@ void draw_vencedor(CONNECT4 * game){
 }
 
 void mouse_handler(int button, int state, int x, int y, CONNECT4 * game){
-    if(button == GLUT_LEFT_BUTTON && state == GLUT_DOWN){
-        int coluna;
-        float mouseX, mouseY;
-        // Converte a entrada para pontos (x,y) na tela
-        mouseX = 2*((float(x)/WIN_WIDTH)-0.5);
-        mouseY = -2*((float(y)/WIN_HEIGHT)-0.5);
+    int coluna;
+    float mouseX, mouseY;
+    // Converte a entrada para pontos (x,y) na tela
+    mouseX = 2*((float(x)/WIN_WIDTH)-0.5);
+    mouseY = -2*((float(y)/WIN_HEIGHT)-0.5);
 
-        if(mouseX < -0.7 || mouseX > 0.7 || mouseY < -0.7 || mouseY > 0.7)  // mouse fora do tabuleiro, descarta
-            return;
-        
-        coluna = (mouseX*10 + 7)/2; 
+    if(mouseX < -0.7 || mouseX > 0.7 || mouseY < -0.7 || mouseY > 0.7)  // mouse fora do tabuleiro, descarta
+        return;
+    
+    coluna = (mouseX*10 + 7)/2; 
 
-        adicionar_peca(game, coluna);
-    }
-    if(button == GLUT_RIGHT_BUTTON && state == GLUT_DOWN){
-        reset(game);
-    }
+    adicionar_peca(game, coluna);
 
 }
 

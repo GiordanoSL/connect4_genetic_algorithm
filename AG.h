@@ -20,6 +20,11 @@
     void evoluir(int gen);
 
     void write_ind(const char * pesos_file, IND * ind);
+    
+    void get_best_ai(IND ** p1, IND ** p2);
+
+    int calcular_penalidade(int cor, CONNECT4 * game);
+
 
 
 #endif
