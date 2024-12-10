@@ -22,7 +22,7 @@ int fitness1[TAM_POP],
     max_fit_ant2 = 0, 
     ger_rep1 = 0, 
     ger_rep2 = 0,
-    penalidade[3] = {0, 200, 4000};
+    penalidade[3] = {0, 1000, 15000};
 float freq_mut1 = 0.05, max_mut1 = 0.01, freq_mut2 = 0.05, max_mut2 = 0.01; 
 
 int quem_evolui = POP1;
@@ -103,6 +103,47 @@ void init_populacao(){
         }
     }
     
+}
+void read_pesos_input(FILE * fp, IND ** ind){
+    for (int i = 0; i < 49; i++)
+    {
+        size_t result = fread(&((*ind)->pesos_input[i]), sizeof(float), 21, fp);
+        if (result != 21) {
+            printf("Erro ao ler pesos_input[%d], esperado 21 elementos, mas leu %zu\n", i, result);
+            // Tratamento de erro, como retornar ou abortar
+        }
+    }
+}
+
+void read_pesos_intermed(FILE * fp, IND ** ind){
+    for (int i = 0; i < 21; i++)
+    {
+        size_t result = fread(&((*ind)->pesos_intermed[i]), sizeof(float), 7, fp);
+        if (result != 7) {
+            printf("Erro ao ler pesos_intermed[%d], esperado 7 elementos, mas leu %zu\n", i, result);
+            // Tratamento de erro, como retornar ou abortar
+        }
+    }
+}
+
+void read_ind(const char * pesos_file, IND ** ind){
+    FILE * file = fopen(pesos_file, "rb");
+
+    if(file == NULL){
+        printf("ERRO AO ABRIR ARQUIVO\n");
+        return;
+    }
+
+    read_pesos_input(file, ind);
+    read_pesos_intermed(file, ind);
+
+    size_t result = fread(&((*ind)->comeco), sizeof(int), 1, file);
+    if (result != 1) {
+        printf("Erro ao ler o campo 'comeco', esperado 1 elemento, mas leu %zu\n", result);
+        // Tratamento de erro, como retornar ou abortar
+    }
+
+    fclose(file);
 }
 
 int calcular_penalidade(int cor, CONNECT4 * game){
@@ -200,6 +241,7 @@ void avaliacao(){
                     break;
             }
 
+            fitness1[i] += calcular_penalidade(-1, jogos[i]);
             fitness1[i] -= calcular_penalidade(1, jogos[i]);
             fitness1[i] += 49000*get_vencedor(jogos[i]);
                     
@@ -223,6 +265,7 @@ void avaliacao(){
                     break;
             }
 
+            fitness2[i] += calcular_penalidade(1, jogos[i]);
             fitness2[i] -= calcular_penalidade(-1, jogos[i]);
             fitness2[i] -= 49000*get_vencedor(jogos[i]);        
         }
@@ -247,7 +290,7 @@ void reproducao(){
     else    
         ger_rep2 = 0;
     
-    if(ger_rep1 > 5 && quem_evolui == POP1){
+    if(ger_rep1 > 3 && quem_evolui == POP1){
         if(fitness1[max_i_1] > 0){
             printf("\nAAA\n");
             quem_evolui = POP2;
@@ -258,7 +301,7 @@ void reproducao(){
         else if(max_mut1 < 0.1)
             max_mut1 += 0.01;
     }
-    if(ger_rep2 > 5 && quem_evolui == POP2){
+    if(ger_rep2 > 3 && quem_evolui == POP2){
             printf("\nBBB\n");
         if(fitness2[max_i_2] > 0){
             quem_evolui = POP1;

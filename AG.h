@@ -25,6 +25,9 @@
 
     int calcular_penalidade(int cor, CONNECT4 * game);
 
+    void read_ind(const char * pesos_file, IND ** ind);
+
+    
 
 
 #endif

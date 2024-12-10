@@ -96,6 +96,8 @@ int main(int argc, char** argv) {
     game = novo_jogo();
     init_populacao();
     get_best_ai(&p1, &p2);
+    read_ind("player1.bin", &p1);
+    read_ind("player2.bin", &p2);
     scanf(" %d", &n);
     while(n != -1){
         evoluir(n);
