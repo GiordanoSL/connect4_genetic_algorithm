@@ -2,6 +2,8 @@
 
 Este projeto implementa o clássico jogo **Connect4** utilizando a biblioteca **OpenGL** para renderização gráfica.
 
+https://github.com/user-attachments/assets/309163df-f5fc-4e14-a857-c378ef2a1aa4
+
 ## Como Jogar
 
 1. **Interação com o Tabuleiro**  
